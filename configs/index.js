@@ -1,40 +1,45 @@
-import * as os from 'node:os';
+import { homedir } from 'node:os';
+import { join} from 'node:path';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 
 const WORKING_DIRECTORY_NAME = 'mcp-shark';
-const DATABASE_NAME = 'mcp-shark.sqlite';
+const MCP_CONFIG_NAME = 'mcps.json';
+const APP_DB_DIR_NAME = 'db';
+const APP_DB_FILE_NAME = 'mcp-shark.sqlite';
+
 export function getWorkingDirectory() {
-  return path.join(os.homedir(), WORKING_DIRECTORY_NAME);
+  return join(homedir(), WORKING_DIRECTORY_NAME);
 }
 
 export function getDatabasePath() {
-  return path.join(getWorkingDirectory(), 'db');
+  return join(getWorkingDirectory(), APP_DB_DIR_NAME);
 }
 
 export function getDatabaseFile() {
-  return path.join(getDatabasePath(), DATABASE_NAME);
+  return join(getDatabasePath(), APP_DB_FILE_NAME);
 }
 
 export function createWorkingDirectorySpaces() {
   const workingDirectory = getWorkingDirectory();
-  if (!fs.existsSync(workingDirectory)) {
-    fs.mkdirSync(workingDirectory, { recursive: true });
+  if (!existsSync(workingDirectory)) {
+    mkdirSync(workingDirectory, { recursive: true });
   }
 }
 
 export function createDatabaseSpaces() {
   createWorkingDirectorySpaces();
   const databasePath = getDatabasePath();
-  if (!fs.existsSync(databasePath)) {
-    fs.mkdirSync(databaseSpacesPath, { recursive: true });
+  if (!existsSync(databasePath)) {
+    mkdirSync(databasePath, { recursive: true });
     const databaseFile = getDatabaseFile();
-    if (!fs.existsSync(databaseFile)) {
-      fs.writeFileSync(databaseFile, '');
+    if (!existsSync(databaseFile)) {
+      writeFileSync(databaseFile, '');
     }
   }
 }
 
 export function getMcpConfigPath() {
-  return path.join(getWorkingDirectory(), 'mcps.json');
+  return join(getWorkingDirectory(), MCP_CONFIG_NAME);
 }
 
 export function prepareAppDataSpaces() {
