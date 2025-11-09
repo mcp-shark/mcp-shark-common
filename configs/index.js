@@ -57,12 +57,19 @@ export function readHelpState() {
     const helpStatePath = getHelpStatePath();
     if (existsSync(helpStatePath)) {
       const content = readFileSync(helpStatePath, 'utf8');
-      return JSON.parse(content);
+      const state = JSON.parse(content);
+      // Ensure we have the expected structure
+      return {
+        dismissed: state.dismissed || false,
+        tourCompleted: state.tourCompleted || false,
+        dismissedAt: state.dismissedAt || null,
+        version: state.version || '1.0.0',
+      };
     }
-    return { dismissed: false };
+    return { dismissed: false, tourCompleted: false, dismissedAt: null, version: '1.0.0' };
   } catch (error) {
     console.error('Error reading help state:', error);
-    return { dismissed: false };
+    return { dismissed: false, tourCompleted: false, dismissedAt: null, version: '1.0.0' };
   }
 }
 
@@ -70,7 +77,17 @@ export function writeHelpState(state) {
   try {
     const helpStatePath = getHelpStatePath();
     prepareAppDataSpaces(); // Ensure directory exists
-    writeFileSync(helpStatePath, JSON.stringify(state, null, 2));
+    
+    // Merge with existing state to preserve other fields
+    const existingState = readHelpState();
+    const newState = {
+      ...existingState,
+      ...state,
+      dismissedAt: state.dismissed || state.tourCompleted ? new Date().toISOString() : existingState.dismissedAt,
+      version: '1.0.0',
+    };
+    
+    writeFileSync(helpStatePath, JSON.stringify(newState, null, 2));
     return true;
   } catch (error) {
     console.error('Error writing help state:', error);
