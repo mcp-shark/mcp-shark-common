@@ -1,5 +1,8 @@
 # MCP Shark Common
 
+> **⚠️ ALPHA VERSION - STILL TESTING**  
+> This is an alpha version of MCP Shark Common. The software is still under active development and testing. Features may change, and there may be bugs or incomplete functionality. Use at your own risk.
+
 > **Shared utilities and database management for MCP Shark**
 
 MCP Shark Common is a shared package that provides common functionality used across MCP Shark components, including database initialization, logging, query utilities, and configuration management.

@@ -2,7 +2,7 @@ import { homedir } from 'node:os';
 import { join} from 'node:path';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 
-const WORKING_DIRECTORY_NAME = 'mcp-shark';
+const WORKING_DIRECTORY_NAME = '.mcp-shark';
 const MCP_CONFIG_NAME = 'mcps.json';
 const APP_DB_DIR_NAME = 'db';
 const APP_DB_FILE_NAME = 'mcp-shark.sqlite';
