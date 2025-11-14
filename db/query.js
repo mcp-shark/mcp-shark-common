@@ -116,8 +116,8 @@ export function queryRequests(db, filters = {}) {
       body_json LIKE ? ESCAPE '\\' OR
       body_raw LIKE ? ESCAPE '\\'
     )`);
-    // Add the pattern for each field (12 fields total)
-    for (let i = 0; i < 10; i++) {
+    // Add the pattern for each field (11 regular fields + 2 server name fields = 13 total)
+    for (let i = 0; i < 11; i++) {
       params.push(searchPattern);
     }
     // Add server name specific patterns
