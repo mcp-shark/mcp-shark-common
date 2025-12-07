@@ -3,9 +3,9 @@
 > **⚠️ ALPHA VERSION - STILL TESTING**  
 > This is an alpha version of MCP Shark Common. The software is still under active development and testing. Features may change, and there may be bugs or incomplete functionality. Use at your own risk.
 
-> **Shared utilities and database management for MCP Shark**
+> **Common library for MCP Shark related work**
 
-MCP Shark Common is a shared package that provides common functionality used across MCP Shark components, including database initialization, logging, query utilities, and configuration management.
+MCP Shark Common is a shared library that provides common functionality for MCP Shark projects. This package contains reusable utilities including database initialization, logging, query utilities, and configuration management that are used across various MCP Shark components.
 
 ## 🎯 Overview
 
@@ -26,43 +26,71 @@ This package provides:
 ## 📦 Installation
 
 ```bash
-npm install
+npm install @mcp-shark/mcp-shark-common
 ```
 
 ## 🚀 Usage
 
+This is a common library for MCP Shark projects. Import the utilities you need:
+
+```javascript
+import {
+  // Database initialization
+  initDb,
+  openDb,
+  // Logging
+  getLogger,
+  // Query utilities
+  queryPackets,
+  queryRequests,
+  queryConversations,
+  getSessionPackets,
+  getSessions,
+  getStatistics,
+  // Configuration paths
+  getWorkingDirectory,
+  getDatabasePath,
+  getDatabaseFile,
+  getMcpConfigPath,
+  prepareAppDataSpaces,
+  readHelpState,
+  writeHelpState
+} from '@mcp-shark/mcp-shark-common';
+```
+
 ### Database Initialization
 
 ```javascript
-import { initDatabase } from './db/init.js';
+import { openDb } from '@mcp-shark/mcp-shark-common';
 
-// Initialize database with schema
-const db = initDatabase('/path/to/database.sqlite');
+// Open or create database with schema
+const db = openDb('/path/to/database.sqlite');
 ```
 
 ### Logging
 
 ```javascript
-import { logRequest, logResponse } from './db/logger.js';
+import { getLogger } from '@mcp-shark/mcp-shark-common';
 
-// Log a request
-await logRequest(db, {
-  sessionId: 'session-123',
+const logger = getLogger(db);
+
+// Log a request packet
+logger.logRequestPacket({
   method: 'POST',
   url: '/mcp',
   headers: { /* ... */ },
   body: { /* ... */ },
-  jsonrpcId: '1',
-  jsonrpcMethod: 'tools/list'
+  userAgent: '...',
+  remoteAddress: '...'
 });
 
-// Log a response
-await logResponse(db, {
-  requestId: 'req-123',
+// Log a response packet
+logger.logResponsePacket({
   statusCode: 200,
   headers: { /* ... */ },
   body: { /* ... */ },
-  duration: 150
+  requestFrameNumber: frameNumber,
+  requestTimestampNs: timestampNs
 });
 ```
 
@@ -75,7 +103,7 @@ import {
   getDatabaseFile,
   getMcpConfigPath,
   prepareAppDataSpaces
-} from './configs/index.js';
+} from '@mcp-shark/mcp-shark-common';
 
 // Get paths
 const workingDir = getWorkingDirectory(); // ~/.mcp-shark
@@ -89,16 +117,17 @@ prepareAppDataSpaces();
 
 ## 📁 Project Structure
 
+This library is organized into modules:
+
 ```
-mcp-shark-common/
+@mcp-shark/mcp-shark-common/
+├── index.js             # Main entry point (exports all utilities)
 ├── db/
 │   ├── init.js          # Database initialization and schema
 │   ├── logger.js        # Audit logging functions
 │   └── query.js         # Database query utilities
-├── configs/
-│   └── index.js         # Configuration path management
-├── package.json
-└── README.md
+└── configs/
+    └── index.js         # Configuration path management
 ```
 
 ## 🗄️ Database Schema

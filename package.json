@@ -1,8 +1,18 @@
 {
-  "name": "mcp-shark-common",
+  "name": "@mcp-shark/mcp-shark-common",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "db/**/*.js",
+    "configs/**/*.js",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
@@ -20,10 +30,29 @@
       "prettier --write"
     ]
   },
-  "keywords": [],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "sqlite",
+    "database",
+    "logging",
+    "audit",
+    "mcp-shark"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "MCP Shark Common",
+  "description": "Shared utilities and database management for MCP Shark - provides database initialization, audit logging, query utilities, and configuration management",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcp-shark-org/mcp-shark-common.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mcp-shark-org/mcp-shark-common/issues"
+  },
+  "homepage": "https://github.com/mcp-shark-org/mcp-shark-common#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "better-sqlite3": "^12.4.1"
   },
