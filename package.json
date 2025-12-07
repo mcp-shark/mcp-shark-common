@@ -19,7 +19,10 @@
     "format": "prettier --write \"**/*.{js,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{js,json,css,md}\"",
     "prepare": "husky install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run lint:fix && npm run format",
+    "publish:public": "npm publish --access public",
+    "publish:dry-run": "npm publish --dry-run"
   },
   "lint-staged": {
     "*.js": [
